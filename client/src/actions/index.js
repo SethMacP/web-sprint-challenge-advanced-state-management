@@ -23,6 +23,7 @@ export const ADD_SMURF_START = "ADD_SMURF_START"
 export const ADD_SMURF_SUCCESS = "ADD_SMURF_SUCCESS"
 export const ADD_SMURF_FAILURE = "ADD_SMURF_FAILURE"
 
+export const SHOW_FORM_ERROR = "SHOW_FORM_ERROR"
 
 
 
@@ -35,6 +36,8 @@ export const getSmurfsSuccess = (smurfs) => {
 export const getSmurfsFailure = (error) => {
     return {type: GET_SMURFS_START, payload: error}
 }
+
+
 export const addSmurfStart = () => {
     return {type: ADD_SMURF_START}
 }
@@ -46,35 +49,39 @@ export const addSmurfFailure = (error) => {
 }
 
 
+export const showFormError = (error) => {
+    return {type: SHOW_FORM_ERROR, payload: error}
+}
+
 
 
 export const getSmurfs = ()=> (dispatch) => {
     dispatch({type:GET_SMURFS_START})
-    console.log("GET_SMURFS started")
+    // console.log("GET_SMURFS started")
     axios
-        .get("https://localhost:3333/smurfs")
+        .get("http://localhost:3333/smurfs")
         .then( res => {
-            console.log('res', res)
-            dispatch({type: GET_SMURFS_SUCCESS, payload: res})
+            // console.log('res', res.data)
+            dispatch({type: GET_SMURFS_SUCCESS, payload: res.data})
         })
         .catch( err => {
-            console.log('err', err)
+            // console.log('err', err)
             dispatch({type: GET_SMURFS_FAILURE , payload: err})
         })
 }
 
 export const addSmurf = (newSmurf) => (dispatch) => {
+    // console.log("ADDING SMURF: ", newSmurf);
     dispatch({type: ADD_SMURF_START})
-    console.log("ADDING SMURF: ", newSmurf);
     axios
         .post("http://localhost:3333/smurfs", newSmurf)
         .then(res =>{
-            console.log(res)
+            // console.log("addSmurf Res: ",res)
             dispatch({type: ADD_SMURF_SUCCESS, payload: res.data})
             })
         .catch(err => {
-            console.log(err)
-            dispatch({type: ADD_SMURF_FAILURE, payload: err.message})
+            // console.log("addSmurf Err: ",err)
+            dispatch({type: ADD_SMURF_FAILURE, payload: err})
             })
 
 }
