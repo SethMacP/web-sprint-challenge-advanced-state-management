@@ -8,9 +8,9 @@ import {logger} from 'redux-logger'
 
 import "./index.css";
 import App from "./App";
-import index from './reducers/index'
+import reducer from './reducers/index'
 
-const store = createStore(index, applyMiddleware(thunk, logger));
+const store = createStore(reducer, applyMiddleware(thunk, logger));
 
 const rootElement = document.getElementById("root");
 

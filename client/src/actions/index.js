@@ -1,5 +1,4 @@
-import axios from 'axios';
-
+//need addSmurf function to pass to AddForm.js
 //Task List:
 //1. Add fetch smurfs action: 
 //              - fetch and return initial list of smurfs
@@ -13,3 +12,70 @@ import axios from 'axios';
 //3. Add set error text action:
 //              - return action object setting error text
 //4. Any other actions you deem nessiary to complete application.
+
+import axios from 'axios';
+
+export const GET_SMURFS_START = "GET_SMURFS_START"
+export const GET_SMURFS_SUCCESS = "GET_SMURFS_SUCCESS"
+export const GET_SMURFS_FAILURE = "GET_SMURFS_FAILURE"
+
+export const ADD_SMURF_START = "ADD_SMURF_START"
+export const ADD_SMURF_SUCCESS = "ADD_SMURF_SUCCESS"
+export const ADD_SMURF_FAILURE = "ADD_SMURF_FAILURE"
+
+
+
+
+export const getSmurfsStart = () => {
+    return {type: GET_SMURFS_START}
+}
+export const getSmurfsSuccess = (smurfs) => {
+    return {type: GET_SMURFS_SUCCESS, payload: smurfs}
+}
+export const getSmurfsFailure = (error) => {
+    return {type: GET_SMURFS_START, payload: error}
+}
+export const addSmurfStart = () => {
+    return {type: ADD_SMURF_START}
+}
+export const addSmurfSuccess = (newSmurf) => {
+    return {type: ADD_SMURF_START, payload: newSmurf}
+}
+export const addSmurfFailure = (error) => {
+    return {type: ADD_SMURF_START, payload: error}
+}
+
+
+
+
+export const getSmurfs = ()=> (dispatch) => {
+    dispatch({type:GET_SMURFS_START})
+    console.log("GET_SMURFS started")
+    axios
+        .get("https://localhost:3333/smurfs")
+        .then( res => {
+            console.log('res', res)
+            dispatch({type: GET_SMURFS_SUCCESS, payload: res})
+        })
+        .catch( err => {
+            console.log('err', err)
+            dispatch({type: GET_SMURFS_FAILURE , payload: err})
+        })
+}
+
+export const addSmurf = (newSmurf) => (dispatch) => {
+    dispatch({type: ADD_SMURF_START})
+    console.log("ADDING SMURF: ", newSmurf);
+    axios
+        .post("http://localhost:3333/smurfs", newSmurf)
+        .then(res =>{
+            console.log(res)
+            dispatch({type: ADD_SMURF_SUCCESS, payload: res.data})
+            })
+        .catch(err => {
+            console.log(err)
+            dispatch({type: ADD_SMURF_FAILURE, payload: err.message})
+            })
+
+}
+

@@ -1,33 +1,61 @@
+import {
+    ADD_SMURF_START, ADD_SMURF_SUCCESS, ADD_SMURF_FAILURE,
+    GET_SMURFS_START, GET_SMURFS_FAILURE, GET_SMURFS_SUCCESS
+} from '../actions/index'
 
-export const initialState = 
-    [
-        {
-        "id":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
-        "name":"Poppa Smurf" ,
-        "position":"Village Leader", 
-        "nickname":"Pops",
-        "description":"Papa is the practical village leader and the father figure of 100 or so young Smurfs. He is easily identified by his red Smurf hat, pants, and a shortly-trimmed white beard and moustache."
-        },
-       
-        {
-        "id":"JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZ",
-        "name":"Smurfette","position":"Beautician",
-        "nickname":"Smurfette",
-        "description":"Smurfette's role in the village is that of any other smurf; chores, and helping out where she can, but for her specifically, she is often seen to be very active in organizing events."
-        },
-       
-        {
-            "id":"G4gRG9lIiwiaWF0IjoxNTE2MjM5MDIy",
-        "name":"Brainy Smurf","position":"Lab Assistant",
-        "nickname":"Brainy",
-        "description":"Brainy is the village intellectual who's not afraid to share his \"wisdom\" with his fellow Smurfs, even though it usually results in his being booted to the village limits or whacked in the head with a mallet.",
+
+export const initialState = {
+    smurfs: [],
+    isLoading: false,
+    error: "",
+}
+    
+
+
+
+const reducer = (state = initialState, action) => {
+switch(action.type){
+    // GET SMURFS
+    case GET_SMURFS_START:
+        return{
+            ...state,
+            isLoading: true
         }
-]
-
-
-
-const reducer = () => {
-
+    case GET_SMURFS_SUCCESS:
+        return{
+            ...state,
+            isLoading: false,
+            smurfs:[...state.smurfs,
+                    action.payload]
+        }
+    case GET_SMURFS_FAILURE:
+        return{
+            ...state,
+            isLoading: false,
+            error: action.payload
+        }
+    //ADD SMURF
+    case ADD_SMURF_START:
+        return{
+            ...state,
+            isLoading: true
+        }
+    case ADD_SMURF_SUCCESS:
+        return{
+            ...state,
+            isLoading: false,
+            smurfs:[...state.smurfs,
+                    action.payload]
+        }
+    case ADD_SMURF_FAILURE:
+        return{
+            ...state,
+            isLoading: false,
+            error: action.payload
+        }
+        default:
+            return state
+}
 
 }
 
